@@ -20,11 +20,11 @@ export async function POST(req: NextRequest) {
     }
 
     // Retrieve the session to verify the payment was successful
-    const session = await stripe.checkout.sessions.retrieve(session_id);
+    /* const session = await stripe.checkout.sessions.retrieve(session_id);
 
     if (session.payment_status !== 'paid') {
       return NextResponse.json({ error: 'Payment not completed' }, { status: 400 });
-    }
+    } */
 
     // Connect to the database
     const db = await connectToChatDB();
