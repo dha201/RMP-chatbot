@@ -19,9 +19,12 @@ let isConnected = false;
 export async function connectToChatDB() {
   if (!isConnected) {
     try {
+      const startConnectionTime = Date.now();
       await client.connect();
       isConnected = true;
-      console.log('Connected to MongoDB');
+      const endConnectionTime = Date.now();
+      console.log(`MongoDB connection established in ${endConnectionTime - startConnectionTime} ms`);
+
     } catch (err) {
       console.error('Failed to connect to the database', err);
       throw err;

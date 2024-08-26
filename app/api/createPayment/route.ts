@@ -37,7 +37,9 @@ export async function POST(req: NextRequest) {
         },
       ],
       mode: 'payment',
-      success_url: `https://ratemyprofessor-chatbot.vercel.app/dashboard?session_id={CHECKOUT_SESSION_ID}&user_id=${userId}&plan=${plan}`,
+      /* success_url: `https://ratemyprofessor-chatbot.vercel.app/dashboard?session_id={CHECKOUT_SESSION_ID}&user_id=${userId}&plan=${plan}`, */
+      success_url: `http://localhost:3000/dashboard?session_id={CHECKOUT_SESSION_ID}&user_id=${userId}&plan=${plan}`,
+
       cancel_url: 'http://ratemyprofessor-chatbot.vercel.app/subscription',
       metadata: {
         userId, // Pass the userId to the session's metadata

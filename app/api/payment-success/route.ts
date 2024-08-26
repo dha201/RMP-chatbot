@@ -8,6 +8,9 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 export async function POST(req: NextRequest) {
   try {
+
+    const startTime = Date.now();
+
     // Parse the JSON body of the request
     const { session_id, user_id, plan } = await req.json();
 
@@ -37,12 +40,19 @@ export async function POST(req: NextRequest) {
     }
 
     // Update the user's character limit in the database
+    const startUpdateTime = Date.now();
     await userLimitsCollection.updateOne(
       { userId: user_id },
       { $set: { characterLimit: newCharacterLimit } }
     );
+    const endUpdateTime = Date.now();
 
     console.log(`Character limit updated to ${newCharacterLimit} for userId: ${user_id}`);
+    console.log(`MongoDB updateOne operation took ${endUpdateTime - startUpdateTime} ms`);
+
+    const endTime = Date.now(); 
+    console.log(`Total request processing time: ${endTime - startTime} ms`);
+
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
     console.error('Error in payment success handler:', error);
