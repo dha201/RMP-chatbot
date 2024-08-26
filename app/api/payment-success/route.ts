@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import Stripe from 'stripe';
 import { connectToChatDB } from '@/app/lib/mongodb-client-chat';
+import { MongoClient, ServerApiVersion } from 'mongodb';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2024-06-20',
-});
+
+const uri = process.env.MONGODB_URI || '';
 
 export async function POST(req: NextRequest) {
   try {
@@ -30,7 +29,22 @@ export async function POST(req: NextRequest) {
     } */
 
     // Connect to the database
-    const db = await connectToChatDB();
+    // const db = await connectToChatDB();
+    // const userLimitsCollection = db.collection('userLimits');
+
+    const startConnectionTime = Date.now(); // Start timing the connection
+    const client = new MongoClient(uri, {
+      serverApi: {
+        version: ServerApiVersion.v1,
+        strict: true,
+        deprecationErrors: true,
+      }
+    });
+    await client.connect();
+    const endConnectionTime = Date.now();
+    console.log(`MongoDB connection established in ${endConnectionTime - startConnectionTime} ms`);
+
+    const db = client.db("chatbotDB");
     const userLimitsCollection = db.collection('userLimits');
 
     // Determine the new character limit based on the plan

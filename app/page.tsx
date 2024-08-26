@@ -6,6 +6,7 @@ import { HowItWorks } from '@/app/components/frontend/Works';
 import { FAQ } from '@/app/components/frontend/FAQ';
 import { Footer } from '@/app/components/frontend/Footer';
 import { PricingTable } from '@/app/components/frontend/Pricing';
+import { Analytics } from "@vercel/analytics/react"
 
 
 export default function LandingRoute() {
@@ -19,6 +20,7 @@ export default function LandingRoute() {
         <FAQ />
         <PricingTable />
         <Footer />
+        <Analytics />
       </div>
     </>
   );
