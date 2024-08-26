@@ -19,6 +19,7 @@ export async function POST(req: NextRequest) {
     if (!prices[plan]) {
       return NextResponse.json({ error: 'Invalid plan selected' }, { status: 400 });
     }
+    
 
     // Create a Checkout Session with the specified amount for the selected plan
     const session = await stripe.checkout.sessions.create({
@@ -36,7 +37,7 @@ export async function POST(req: NextRequest) {
         },
       ],
       mode: 'payment',
-      success_url: `http://https://ratemyprofessor-chatbot.vercel.app/dashboard?session_id={CHECKOUT_SESSION_ID}&user_id=${userId}&plan=${plan}`,
+      success_url: `https://ratemyprofessor-chatbot.vercel.app/dashboard?session_id={CHECKOUT_SESSION_ID}&user_id=${userId}&plan=${plan}`,
       cancel_url: 'http://ratemyprofessor-chatbot.vercel.app/subscription',
       metadata: {
         userId, // Pass the userId to the session's metadata
