@@ -39,6 +39,7 @@ function DashboardHome() {
 
   const handlePaymentSuccess = async (sessionId: string, userId: string, plan: string) => {
     try {
+      console.log('Handling payment success...');
       const response = await fetch('/api/payment-success', {
         method: 'POST',
         headers: {
