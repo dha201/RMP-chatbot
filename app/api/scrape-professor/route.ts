@@ -16,18 +16,15 @@ interface ProfessorData {
 }
 
 async function scrapeProfessorData(professorLink: string): Promise<ProfessorData> {
-  /* const browser = await puppeteer.launch({ headless: true });
-  const page = await browser.newPage(); */
-
-  // Launch Chromium optimized for serverless
-/*   const browser = await puppeteer.launch({
-    executablePath: await chromium.executablePath(),
-    args: chromium.args,
-    headless: chromium.headless,
-  }); */
+  // const browser = await puppeteer.launch({ headless: true });
+  const token = process.env.BLESS_TOKEN || '';
+  if (!token) {
+    throw new Error('Browserless token is missing');
+  }
   const browser = await puppeteer.connect({
-    browserWSEndpoint: `wss://chrome.browserless.io?token=${process.env.BLESS_TOKEN}`,
+    browserWSEndpoint: `wss://chrome.browserless.io?token=${token}`,
   });
+
   const page = await browser.newPage();
 
   try {
