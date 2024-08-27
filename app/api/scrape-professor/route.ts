@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-core';
+import chromium from '@sparticuz/chromium';
 
 interface RatingData {
   comment_number: number;
@@ -15,7 +16,15 @@ interface ProfessorData {
 }
 
 async function scrapeProfessorData(professorLink: string): Promise<ProfessorData> {
-  const browser = await puppeteer.launch({ headless: true });
+  /* const browser = await puppeteer.launch({ headless: true });
+  const page = await browser.newPage(); */
+
+  // Launch Chromium optimized for serverless
+  const browser = await puppeteer.launch({
+    executablePath: await chromium.executablePath(),
+    args: chromium.args,
+    headless: chromium.headless,
+  });
   const page = await browser.newPage();
 
   try {
