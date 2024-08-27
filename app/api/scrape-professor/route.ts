@@ -20,10 +20,13 @@ async function scrapeProfessorData(professorLink: string): Promise<ProfessorData
   const page = await browser.newPage(); */
 
   // Launch Chromium optimized for serverless
-  const browser = await puppeteer.launch({
+/*   const browser = await puppeteer.launch({
     executablePath: await chromium.executablePath(),
     args: chromium.args,
     headless: chromium.headless,
+  }); */
+  const browser = await puppeteer.connect({
+    browserWSEndpoint: `wss://chrome.browserless.io?token=${process.env.BLESS_TOKEN}`,
   });
   const page = await browser.newPage();
 
